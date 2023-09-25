@@ -46,6 +46,9 @@ class HomeView extends GetView<HomeController> {
                   onWebViewCreated: (newWebviewController) {
                     controller.webViewController = newWebviewController;
                   },
+                  onProgressChanged: (webviewController, progress) {
+                    controller.webViewProgress.value = progress;
+                  },
                   onLoadStop: (webviewController, url) {
                     controller.currentLoadedUri.value = url;
                   },

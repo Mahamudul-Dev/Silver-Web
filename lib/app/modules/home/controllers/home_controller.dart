@@ -9,6 +9,7 @@ class HomeController extends GetxController {
   Rx<Uri?> currentLoadedUri = Rx<Uri?>(Uri.parse(URL));
   RxBool isConnected = false.obs;
   InAppWebViewController? webViewController;
+  RxInt webViewProgress = 0.obs;
 
   Future<void> onRefresh() async {
     // Reload the WebView page when pulled down to refresh
