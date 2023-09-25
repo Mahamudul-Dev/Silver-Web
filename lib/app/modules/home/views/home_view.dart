@@ -1,11 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-
-import '../../../data/style.dart';
+import 'package:lottie/lottie.dart';
 import '../../../data/utils.dart';
 import '../controllers/home_controller.dart';
 
@@ -13,8 +9,12 @@ class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
   Future<void> onRefresh() async {
     // Reload the WebView page when pulled down to refresh
-    return await Future.delayed(Duration(seconds: 2));
+    controller.webViewController?.loadUrl(
+        urlRequest: URLRequest(
+      url: controller.currentLoadedUri.value, // Replace with your desired URL
+    ));
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -28,33 +28,48 @@ class HomeView extends GetView<HomeController> {
         return true;
       },
       child: Scaffold(
-        body: LiquidPullToRefresh(
-        onRefresh: onRefresh,
-        child: InAppWebView(
-          initialUrlRequest: URLRequest(
-            url: Uri.parse(URL), // Replace with your desired URL
-          ),
-          initialOptions: InAppWebViewGroupOptions(
-            crossPlatform: InAppWebViewOptions(
-              // Configure WebView options here
-            ),
-          ),
-          onWebViewCreated: (newWebviewController) {
-            controller.webViewController = newWebviewController;
-          },
-        ),
-      
-      //   WebviewScaffold(
-      //     url: URL,
-      //     initialChild: Container(
-      //   color: Colors.white,
-      //   child: Center(
-      //     child: LoadingAnimationWidget.fallingDot(color: AppColor.ACCENT_COLOR, size: 40),
-      //   ),
-      // ),
-      //   ),
-      ),
-      ),
+          body: Obx(() => controller.isConnected.value
+              ? InAppWebView(
+                  pullToRefreshController: PullToRefreshController(
+                      onRefresh: onRefresh,
+                      options: PullToRefreshOptions(
+                        color: Colors.green,
+                      )),
+                  initialUrlRequest: URLRequest(
+                    url: Uri.parse(URL), // Replace with your desired URL
+                  ),
+                  initialOptions: InAppWebViewGroupOptions(
+                    crossPlatform: InAppWebViewOptions(
+                        // Configure WebView options here
+                        ),
+                  ),
+                  onWebViewCreated: (newWebviewController) {
+                    controller.webViewController = newWebviewController;
+                  },
+                  onLoadStop: (webviewController, url) {
+                    controller.currentLoadedUri.value = url;
+                  },
+                )
+              : AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        40.0), // Adjust the radius as needed
+                  ),
+                  content: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Lottie.asset('assets/wifi_animation.json'),
+                      const Text(
+                        'No Internet, Please check the connection!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  contentPadding: const EdgeInsets.all(20),
+                ))),
     );
   }
 }

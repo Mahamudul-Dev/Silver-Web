@@ -1,20 +1,13 @@
 import 'dart:async';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
+import 'package:silver_view/app/data/utils.dart';
 
 class HomeController extends GetxController {
-
-  // final flutterWebviewPlugin = FlutterWebviewPlugin();
-
-
-  // @override
-  // void dispose() {
-  //   flutterWebviewPlugin.dispose();
-  //   super.dispose();
-  // }
-
-
+  Rx<Uri?> currentLoadedUri = Rx<Uri?>(Uri.parse(URL));
+  RxBool isConnected = false.obs;
   InAppWebViewController? webViewController;
 
   Future<void> onRefresh() async {
@@ -22,4 +15,11 @@ class HomeController extends GetxController {
     webViewController?.reload();
   }
 
+  @override
+  void onInit() {
+    Connectivity().onConnectivityChanged.listen((result) {
+      isConnected.value = result != ConnectivityResult.none;
+    });
+    super.onInit();
+  }
 }

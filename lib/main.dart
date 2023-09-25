@@ -17,7 +17,6 @@ void main() {
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
-      
     ),
   );
 }

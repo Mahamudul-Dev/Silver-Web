@@ -9,18 +9,23 @@ class SplashView extends GetView<SplashController> {
   const SplashView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width.obs;
-    Future.delayed(const Duration(seconds: 5), () {
-      // Replace the next line with the appropriate route for your app
-      Get.offNamed(Routes.HOME);
-    });
-    return Scaffold(
-        body: Center(
-            child: Obx(() => Image.asset(
-                  width.value > 550
-                      ? 'assets/large_splash_bg.png'
-                      : 'assets/splash_bg.png',
-                  fit: BoxFit.cover,
-                ))));
+    // Future.delayed(const Duration(seconds: 5), () {
+    //   // Replace the next line with the appropriate route for your app
+    //   Get.offNamed(Routes.HOME);
+    // });
+    return const Scaffold(
+        body: Column(
+      children: [
+        Expanded(
+            child: Image(
+                image: AssetImage('assets/afrister-banner.png'),
+                fit: BoxFit.cover)),
+        Expanded(
+            child: Image(
+          image: AssetImage('assets/logo-splash.png'),
+          fit: BoxFit.cover,
+        ))
+      ],
+    ));
   }
 }
