@@ -7,13 +7,6 @@ import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
-  Future<void> onRefresh() async {
-    // Reload the WebView page when pulled down to refresh
-    controller.webViewController?.loadUrl(
-        urlRequest: URLRequest(
-      url: controller.currentLoadedUri.value, // Replace with your desired URL
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +24,7 @@ class HomeView extends GetView<HomeController> {
           body: Obx(() => controller.isConnected.value
               ? InAppWebView(
                   pullToRefreshController: PullToRefreshController(
-                      onRefresh: onRefresh,
+                      onRefresh: controller.onRefresh,
                       options: PullToRefreshOptions(
                         color: Colors.green,
                       )),
@@ -39,11 +32,13 @@ class HomeView extends GetView<HomeController> {
                     url: Uri.parse(URL), // Replace with your desired URL
                   ),
                   initialOptions: InAppWebViewGroupOptions(
+                    
                     crossPlatform: InAppWebViewOptions(
                         // Configure WebView options here
                         supportZoom: false,
                         allowFileAccessFromFileURLs: true,
-                        allowUniversalAccessFromFileURLs: true
+                        allowUniversalAccessFromFileURLs: true,
+                        
                         ),
                   ),
                   onWebViewCreated: (newWebviewController) {
@@ -75,7 +70,8 @@ class HomeView extends GetView<HomeController> {
                     ],
                   ),
                   contentPadding: const EdgeInsets.all(20),
-                ))),
+                )),
+      ),
     );
   }
 }
