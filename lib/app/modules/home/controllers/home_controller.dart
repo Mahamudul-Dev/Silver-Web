@@ -7,7 +7,7 @@ import 'package:silver_view/app/data/utils.dart';
 
 class HomeController extends GetxController {
   Rx<Uri?> currentLoadedUri = Rx<Uri?>(Uri.parse(URL));
-  RxBool isConnected = false.obs;
+  RxBool isConnected = true.obs;
   InAppWebViewController? webViewController;
   RxInt webViewProgress = 0.obs;
 
@@ -19,7 +19,11 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     Connectivity().onConnectivityChanged.listen((result) {
-      isConnected.value = result != ConnectivityResult.none;
+      if (result == ConnectivityResult.none) {
+        isConnected.value = false;
+      } else {
+        isConnected.value = true;
+      }
     });
     super.onInit();
   }

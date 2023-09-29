@@ -41,6 +41,9 @@ class HomeView extends GetView<HomeController> {
                   initialOptions: InAppWebViewGroupOptions(
                     crossPlatform: InAppWebViewOptions(
                         // Configure WebView options here
+                        supportZoom: false,
+                        allowFileAccessFromFileURLs: true,
+                        allowUniversalAccessFromFileURLs: true
                         ),
                   ),
                   onWebViewCreated: (newWebviewController) {
