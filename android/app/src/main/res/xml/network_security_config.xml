@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+
+    <!-- Set the base configuration -->
+    <base-config cleartextTrafficPermitted="false">
+        <!-- You can add more attributes or configuration here as needed -->
+    </base-config>
+
+    <!-- Add domain-specific configurations -->
+    <!-- Example: Allow connections to example.com with a specific certificate pinning -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">go.eummena.net</domain>
+        <!-- Add your specific configuration for this domain -->
+    </domain-config>
+
+    <!-- Add more domain-config elements for additional domains -->
+
+</network-security-config>

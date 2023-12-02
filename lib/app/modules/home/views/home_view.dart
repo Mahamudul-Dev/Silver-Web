@@ -14,6 +14,10 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    Connectivity().onConnectivityChanged.listen((result) {
+      // internetConnectionState.add(result);
+       HomeController.isConnected.value = result != ConnectivityResult.none;
+    });
     return WillPopScope(
       onWillPop: () async {
         if (controller.webViewController != null) {
@@ -25,44 +29,9 @@ class HomeView extends GetView<HomeController> {
         return true;
       },
       child: Scaffold(
-          body: StreamBuilder(
-            stream: controller.internetConnectionState.stream,
-            initialData: ConnectivityResult.none, 
-            
-            builder: (context,AsyncSnapshot<ConnectivityResult> snapshot){
-            
-              if (snapshot.data == ConnectivityResult.none) {
-                // no internet connection
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        40.0), // Adjust the radius as needed
-                  ),
-                  content: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      DotLottieLoader.fromAsset("assets/no_internet_animation.lottie",
-                  frameBuilder: (BuildContext ctx, DotLottie? dotlottie) {
-                if (dotlottie != null) {
-                  return Lottie.memory(dotlottie.animations.values.single);
-                } else {
-                  return Container();
-                }
-              }),
-                      const Text(
-                        'No Internet, Please check the connection!',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                  contentPadding: const EdgeInsets.all(20),
-                );
-              } else {
-                // has internet connection
-                return InAppWebView(
+          body: Obx(() {
+            if (HomeController.isConnected.value) {
+              return InAppWebView(
                   pullToRefreshController: PullToRefreshController(
                       onRefresh: controller.onRefresh,
                       options: PullToRefreshOptions(
@@ -91,13 +60,45 @@ class HomeView extends GetView<HomeController> {
                     controller.currentLoadedUri.value = url;
                   },
                 );
-              }
-            
-
+            } else {
+              return _buildNoInteretView();
+            }
           }),
 
-        floatingActionButton:  Obx(() => controller.isConnected.value ? FloatingActionButton(onPressed: ()=> controller.goHome(), backgroundColor: AppColor.ACCENT_COLOR, child: const Icon(Icons.home, color: Colors.white,),) : const SizedBox.shrink())
+        floatingActionButton:  Obx(() => HomeController.isConnected.value ? FloatingActionButton(onPressed: ()=> controller.goHome(), backgroundColor: AppColor.ACCENT_COLOR, child: const Icon(Icons.home, color: Colors.white,),) : const SizedBox.shrink())
       ),
     );
+  }
+
+
+
+  Widget _buildNoInteretView(){
+    return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        40.0), // Adjust the radius as needed
+                  ),
+                  content: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      DotLottieLoader.fromAsset("assets/no_internet_animation.lottie",
+                  frameBuilder: (BuildContext ctx, DotLottie? dotlottie) {
+                if (dotlottie != null) {
+                  return Lottie.memory(dotlottie.animations.values.single);
+                } else {
+                  return Container();
+                }
+              }),
+                      const Text(
+                        'No Internet, Please check the connection!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  contentPadding: const EdgeInsets.all(20),
+                );
   }
 }

@@ -7,11 +7,11 @@ import 'package:silver_view/app/data/utils.dart';
 
 class HomeController extends GetxController {
   Rx<Uri?> currentLoadedUri = Rx<Uri?>(Uri.parse(URL));
-  RxBool isConnected = true.obs;
+  static RxBool isConnected = false.obs;
   InAppWebViewController? webViewController;
   RxInt webViewProgress = 0.obs;
 
-  StreamController<ConnectivityResult> internetConnectionState = StreamController<ConnectivityResult>();
+  // StreamController<ConnectivityResult> internetConnectionState = StreamController<ConnectivityResult>();
 
   Future<void> onRefresh() async {
     // Reload the WebView page when pulled down to refresh
@@ -24,26 +24,29 @@ class HomeController extends GetxController {
                   ));
   }
 
+
+
   @override
   void onInit() {
-    Connectivity().onConnectivityChanged.listen((result) {
-      internetConnectionState.add(result);
-      if (result == ConnectivityResult.none) {
-        
-        isConnected.value = false;
-      } else {
-        isConnected.value = true;
-      }
-    });
+    
     super.onInit();
   }
 
-  @override
-  void onClose() {
-    currentLoadedUri.close();
-    isConnected.close();
-    webViewProgress.close();
-    internetConnectionState.close();
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   currentLoadedUri.close();
+  //   isConnected.close();
+  //   webViewProgress.close();
+  //   internetConnectionState.close();
+  //   super.onClose();
+  // }
+
+  // @override
+  // void dispose() {
+  //   internetConnectionState.close();
+  //   currentLoadedUri.close();
+  //   isConnected.close();
+  //   webViewProgress.close();
+  //   super.dispose();
+  // }
 }

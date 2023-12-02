@@ -1,4 +1,4 @@
-package com.example.silver_web
+package com.eummena.app
 
 import io.flutter.embedding.android.FlutterActivity
 
