@@ -15,6 +15,7 @@ dependencies:
   liquid_pull_to_refresh: 3.0.1
   connectivity_plus: 4.0.2
   lottie: 2.6.0
+  dotlottie_loader: 0.0.3
   flutter: 
     sdk: flutter
 
@@ -24,7 +25,7 @@ dev_dependencies:
     sdk: flutter
 
 flutter: 
-  uses-material-design: true
-  assets:
+  assets: 
     - assets/
+  uses-material-design: true
 

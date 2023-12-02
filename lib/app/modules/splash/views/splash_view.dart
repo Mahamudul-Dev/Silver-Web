@@ -12,24 +12,21 @@ class SplashView extends GetView<SplashController> {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Get.offAllNamed(Routes.HOME);
     });
     return Scaffold(
+      backgroundColor: Colors.white,
         body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: 250,
-          child: const Image(
-              image: AssetImage('assets/afrister-banner.png'),
-              fit: BoxFit.cover),
-        ),
-        const Expanded(
-            child: Image(
-          image: AssetImage('assets/logo-splash.png'),
+        Image(
+          image: const AssetImage('assets/appstore.png'),
           fit: BoxFit.cover,
-        )),
+          height: MediaQuery.of(context).size.width * 0.5,
+          width: MediaQuery.of(context).size.width * 0.5,
+        ),
         Container(
           color: Colors.white,
           height: 80,
