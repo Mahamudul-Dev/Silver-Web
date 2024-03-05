@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "Eummena Go" "\0"
+            VALUE "FileDescription", "Selding" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "Eummena Go" "\0"
+            VALUE "InternalName", "Selding" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
             VALUE "OriginalFilename", "silver_web.exe" "\0"
-            VALUE "ProductName", "Eummena Go" "\0"
+            VALUE "ProductName", "Selding" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

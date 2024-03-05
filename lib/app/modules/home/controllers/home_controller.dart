@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:silver_view/app/data/utils.dart';
@@ -10,6 +9,7 @@ class HomeController extends GetxController {
   static RxBool isConnected = false.obs;
   InAppWebViewController? webViewController;
   RxInt webViewProgress = 0.obs;
+  RxBool isLoading = false.obs;
 
   // StreamController<ConnectivityResult> internetConnectionState = StreamController<ConnectivityResult>();
 
@@ -18,35 +18,27 @@ class HomeController extends GetxController {
     webViewController?.reload();
   }
 
-  Future<void> goHome()async{
-    await webViewController?.loadUrl(urlRequest: URLRequest(
-                    url: Uri.parse(URL), // Replace with your desired URL
-                  ));
+  Future<void> goHome() async {
+    await webViewController?.loadUrl(
+      urlRequest: URLRequest(
+        url: Uri.parse(URL), // Replace with your desired URL
+      ),
+    );
   }
-
-
 
   @override
-  void onInit() {
-    
-    super.onInit();
+  void onClose() {
+    currentLoadedUri.close();
+    isConnected.close();
+    webViewProgress.close();
+    super.onClose();
   }
 
-  // @override
-  // void onClose() {
-  //   currentLoadedUri.close();
-  //   isConnected.close();
-  //   webViewProgress.close();
-  //   internetConnectionState.close();
-  //   super.onClose();
-  // }
-
-  // @override
-  // void dispose() {
-  //   internetConnectionState.close();
-  //   currentLoadedUri.close();
-  //   isConnected.close();
-  //   webViewProgress.close();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    currentLoadedUri.close();
+    isConnected.close();
+    webViewProgress.close();
+    super.dispose();
+  }
 }

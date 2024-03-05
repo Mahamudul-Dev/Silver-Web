@@ -16,30 +16,22 @@ class SplashView extends GetView<SplashController> {
       Get.offAllNamed(Routes.HOME);
     });
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColor.ACCENT_COLOR,
         body: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image(
-          image: const AssetImage('assets/appstore.png'),
+          image: const AssetImage('assets/logo-splash.png'),
           fit: BoxFit.cover,
           height: MediaQuery.of(context).size.width * 0.5,
           width: MediaQuery.of(context).size.width * 0.5,
         ),
-        Container(
-          color: Colors.white,
-          height: 80,
-          width: MediaQuery.of(context).size.width,
-          child: Center(
-            child: LoadingAnimationWidget.inkDrop(
-                color: AppColor.ACCENT_COLOR, size: 30),
-          ),
+        
+        Center(
+          child: LoadingAnimationWidget.inkDrop(
+              color: Colors.white, size: 30),
         ),
-        Container(
-          height: 50,
-          color: Colors.white,
-        )
       ],
     ));
   }
