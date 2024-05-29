@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "1050485119039",
-    "project_id": "selding-app",
-    "storage_bucket": "selding-app.appspot.com"
+    "project_number": "1006602743876",
+    "project_id": "ape-store",
+    "storage_bucket": "ape-store.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1050485119039:android:c2586f5a419aafba3d408a",
+        "mobilesdk_app_id": "1:1006602743876:android:5427be02e914f38c2f0c11",
         "android_client_info": {
-          "package_name": "com.selding.app"
+          "package_name": "com.ape.store"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBGwyZ7rFwPsbj4X4s7lsUTs0ybtl-Kd4c"
+          "current_key": "AIzaSyBk4khHc0G-vX9VGpaeAVBirzXfMCMt5Ts"
         }
       ],
       "services": {

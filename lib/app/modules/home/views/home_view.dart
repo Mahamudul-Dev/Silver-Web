@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:ape_store/app/data/asset_manager.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../data/style.dart';
-import '../../../data/utils.dart';
+import '../../../data/config.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -28,6 +30,7 @@ class HomeView extends GetView<HomeController> {
         return true;
       },
       child: Scaffold(
+        backgroundColor: AppColor.ACCENT_COLOR,
         body: Obx(() {
           if (HomeController.isConnected.value) {
             return SafeArea(
@@ -38,30 +41,67 @@ class HomeView extends GetView<HomeController> {
                         onRefresh: controller.onRefresh,
                         options: PullToRefreshOptions(
                           color: AppColor.ACCENT_COLOR,
-                        )),
+                        ),),
+                        shouldOverrideUrlLoading: (controller, navigationAction) async {
+                          final uri = navigationAction.request.url;
+                          if(uri !=null && AppConfig.BLOCKED_SCHEME.contains(uri.scheme)){
+                            try {
+                              final canLaunch = await canLaunchUrl(uri);
+                            print(canLaunch);
+                            // if(canLaunch){
+                              await launchUrl(uri, mode: LaunchMode.externalApplication);
+                            // }
+                            } catch (e) {
+                              print(e);
+                            }
+                            return NavigationActionPolicy.CANCEL;
+                          }
+                          return NavigationActionPolicy.ALLOW;
+                        },
                     initialUrlRequest: URLRequest(
-                      url: Uri.parse(URL), // Replace with your desired URL
+                      url: Uri.parse(AppConfig.URL), // Replace with your desired URL
                     ),
                     initialOptions: InAppWebViewGroupOptions(
-                      crossPlatform: InAppWebViewOptions(
-                        // Configure WebView options here
-                        supportZoom: false,
-                        allowFileAccessFromFileURLs: true,
-                        allowUniversalAccessFromFileURLs: true,
-                      ),
-                    ),
+                        crossPlatform: InAppWebViewOptions(
+                            // Configure WebView options here
+                            supportZoom: false,
+                            allowFileAccessFromFileURLs: true,
+                            allowUniversalAccessFromFileURLs: true,
+                            cacheEnabled: true,
+                            javaScriptEnabled: true,
+                            useShouldOverrideUrlLoading: true,
+                            mediaPlaybackRequiresUserGesture: false,
+                            useOnDownloadStart: true,
+                            
+                            userAgent:
+                                "Mozilla/5.0 (Linux; Android 9; LG-H870 Build/PKQ1.190522.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36",
+                            verticalScrollBarEnabled: false,
+                            horizontalScrollBarEnabled: false,
+                            transparentBackground: true),
+                        android: AndroidInAppWebViewOptions(
+                          useHybridComposition: true,
+                          thirdPartyCookiesEnabled: true,
+                          allowFileAccess: true,
+                        ),
+                        ios: IOSInAppWebViewOptions(
+                          allowsInlineMediaPlayback: true,
+                        )),
                     onLoadStart: (webController, url) {
-                      if(!controller.isLoading.value){
+                      if (!controller.isLoading.value) {
                         controller.isLoading.value = true;
                       }
-                      debugPrint("Load start");
+                      print({
+                        "Scheme": url?.scheme,
+                        "Host": url?.host,
+                        "Path": url?.path
+                      });
                     },
                     onLoadError: (controller, url, code, message) {},
                     onLoadHttpError:
                         (controller, url, statusCode, description) {},
                     onWebViewCreated: (newWebviewController) {
                       controller.webViewController = newWebviewController;
-                      if(!controller.isLoading.value){
+                      if (!controller.isLoading.value) {
                         controller.isLoading.value = true;
                       }
                     },
@@ -71,32 +111,30 @@ class HomeView extends GetView<HomeController> {
                     },
                     onLoadStop: (webviewController, url) async {
                       controller.currentLoadedUri.value = url;
-                      await webviewController.evaluateJavascript(
-                        source:
-                            "var footers = document.getElementsByClassName('site-footer'); for (var i = 0; i < footers.length; i++) {   footers[i].style.display = 'none'; }",
-                      );
+                      
                       controller.isLoading.value = false;
                     },
                   ),
                   controller.isLoading.value
                       ? Align(
-                    alignment: Alignment.center,
-                        child: SizedBox(
-                                            height: MediaQuery.of(context).size.height * 0.12,
-                          width: MediaQuery.of(context).size.height * 0.12,
-                          child: const Card(
-                            child: Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Center(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            width: MediaQuery.of(context).size.height * 0.12,
+                            child: const Card(
+                              color: AppColor.ACCENT_COLOR,
+                              child: Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Center(
                                   child: CircularProgressIndicator(
-                                    color: AppColor.ACCENT_COLOR,
+                                    color: Colors.white,
                                     // value: controller.webViewProgress.value / 100,
                                   ),
                                 ),
+                              ),
                             ),
                           ),
-                        ),
-                      )
+                        )
                       : const SizedBox.shrink()
                 ],
               ),
@@ -113,6 +151,7 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildNoInteretView() {
     return AlertDialog(
+      backgroundColor: AppColor.ACCENT_COLOR,
       shape: RoundedRectangleBorder(
         borderRadius:
             BorderRadius.circular(40.0), // Adjust the radius as needed
@@ -121,7 +160,7 @@ class HomeView extends GetView<HomeController> {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          DotLottieLoader.fromAsset("assets/no_internet_animation.lottie",
+          DotLottieLoader.fromAsset(AssetManager.NO_INTERNET_ANIM,
               frameBuilder: (BuildContext ctx, DotLottie? dotlottie) {
             if (dotlottie != null) {
               return Lottie.memory(dotlottie.animations.values.single);

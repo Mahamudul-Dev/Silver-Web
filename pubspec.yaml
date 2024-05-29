@@ -1,4 +1,4 @@
-name: silver_view
+name: ape_store
 version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.
@@ -21,9 +21,11 @@ dependencies:
     sdk: flutter
   firebase_core: ^2.24.2
   onesignal_flutter: ^5.1.0
+  flutter_native_splash: ^2.4.0
 
 dev_dependencies: 
   flutter_lints: any
+  flutter_launcher_icons: "^0.13.1"
   flutter_test: 
     sdk: flutter
 
@@ -31,4 +33,11 @@ flutter:
   assets: 
     - assets/
   uses-material-design: true
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo_solid.jpg"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  
 

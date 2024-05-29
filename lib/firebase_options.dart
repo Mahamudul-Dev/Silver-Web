@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBGwyZ7rFwPsbj4X4s7lsUTs0ybtl-Kd4c',
-    appId: '1:1050485119039:android:c2586f5a419aafba3d408a',
-    messagingSenderId: '1050485119039',
-    projectId: 'selding-app',
-    storageBucket: 'selding-app.appspot.com',
+    apiKey: 'AIzaSyBk4khHc0G-vX9VGpaeAVBirzXfMCMt5Ts',
+    appId: '1:1006602743876:android:5427be02e914f38c2f0c11',
+    messagingSenderId: '1006602743876',
+    projectId: 'ape-store',
+    storageBucket: 'ape-store.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDiwhN6Fc1xJCjpY0knUfarIvLxP5b20E0',
-    appId: '1:1050485119039:ios:f5fb38e8b834eb883d408a',
-    messagingSenderId: '1050485119039',
-    projectId: 'selding-app',
-    storageBucket: 'selding-app.appspot.com',
-    iosBundleId: 'com.selding.app',
+    apiKey: 'AIzaSyCE2yu3q2KLQ3cAr5MEpZmMidaNJY0Zo4c',
+    appId: '1:1006602743876:ios:2384bfa8a241284d2f0c11',
+    messagingSenderId: '1006602743876',
+    projectId: 'ape-store',
+    storageBucket: 'ape-store.appspot.com',
+    iosBundleId: 'com.ape.store',
   );
+
 }

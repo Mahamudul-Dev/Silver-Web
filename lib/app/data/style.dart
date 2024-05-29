@@ -3,5 +3,5 @@
 import 'package:flutter/material.dart';
 
 class AppColor {
-  static const Color ACCENT_COLOR = Color(0xff292021);
+  static const Color ACCENT_COLOR = Color(0xff161721);
 }
