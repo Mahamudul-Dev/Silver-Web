@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:ape_store/app/data/config.dart';
 
 class HomeController extends GetxController {
-  Rx<Uri?> currentLoadedUri = Rx<Uri?>(Uri.parse(AppConfig.URL));
+  Rx<WebUri?> currentLoadedUri = Rx<WebUri?>(WebUri(AppConfig.URL));
   static RxBool isConnected = false.obs;
   InAppWebViewController? webViewController;
   RxInt webViewProgress = 0.obs;
@@ -26,7 +26,7 @@ class HomeController extends GetxController {
   Future<void> goHome() async {
     await webViewController?.loadUrl(
       urlRequest: URLRequest(
-        url: Uri.parse(AppConfig.URL), // Replace with your desired URL
+        url: WebUri(AppConfig.URL), // Replace with your desired URL
       ),
     );
   }

@@ -59,7 +59,7 @@ class HomeView extends GetView<HomeController> {
                           return NavigationActionPolicy.ALLOW;
                         },
                     initialUrlRequest: URLRequest(
-                      url: Uri.parse(AppConfig.URL), // Replace with your desired URL
+                      url: WebUri(AppConfig.URL), // Replace with your desired URL
                     ),
                     initialOptions: InAppWebViewGroupOptions(
                         crossPlatform: InAppWebViewOptions(
@@ -73,8 +73,7 @@ class HomeView extends GetView<HomeController> {
                             mediaPlaybackRequiresUserGesture: false,
                             useOnDownloadStart: true,
                             
-                            userAgent:
-                                "Mozilla/5.0 (Linux; Android 9; LG-H870 Build/PKQ1.190522.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36",
+                            userAgent: "Android/5.0 Grameen Bangla", // "Mozilla/5.0 (Linux; Android 9; LG-H870 Build/PKQ1.190522.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36",
                             verticalScrollBarEnabled: false,
                             horizontalScrollBarEnabled: false,
                             transparentBackground: true),
@@ -121,8 +120,8 @@ class HomeView extends GetView<HomeController> {
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.12,
                             width: MediaQuery.of(context).size.height * 0.12,
-                            child: const Card(
-                              color: AppColor.ACCENT_COLOR,
+                            child: Card(
+                              color: AppColor.ACCENT_COLOR.withAlpha(70),
                               child: Padding(
                                 padding: EdgeInsets.all(10.0),
                                 child: Center(

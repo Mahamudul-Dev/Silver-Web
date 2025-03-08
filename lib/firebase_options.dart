@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBk4khHc0G-vX9VGpaeAVBirzXfMCMt5Ts',
-    appId: '1:1006602743876:android:5427be02e914f38c2f0c11',
-    messagingSenderId: '1006602743876',
-    projectId: 'ape-store',
-    storageBucket: 'ape-store.appspot.com',
+    apiKey: 'AIzaSyD0mbXMnOFqoVBk8rtnib0Q7IBAtwJlLuw',
+    appId: '1:577124075863:android:a0cbd8cf04302794ef9612',
+    messagingSenderId: '577124075863',
+    projectId: 'grameen-bangla-b0c74',
+    storageBucket: 'grameen-bangla-b0c74.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCE2yu3q2KLQ3cAr5MEpZmMidaNJY0Zo4c',
-    appId: '1:1006602743876:ios:2384bfa8a241284d2f0c11',
-    messagingSenderId: '1006602743876',
-    projectId: 'ape-store',
-    storageBucket: 'ape-store.appspot.com',
+    apiKey: 'AIzaSyA7hHpdcL2wIaSrJ_Xz2tFygBACzXmZ5EQ',
+    appId: '1:577124075863:ios:1e4e0a30e4d0cc83ef9612',
+    messagingSenderId: '577124075863',
+    projectId: 'grameen-bangla-b0c74',
+    storageBucket: 'grameen-bangla-b0c74.firebasestorage.app',
     iosBundleId: 'com.ape.store',
   );
 

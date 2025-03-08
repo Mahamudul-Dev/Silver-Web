@@ -1,9 +1,9 @@
 // ignore_for_file: constant_identifier_names
 
 class AppConfig {
-  static const String URL = 'https://ape.store';
-  static const String APP_NAME = 'Ape Store';
-  static const String ONESIGNAL_APP_ID = 'Your-OneSignal-App-ID';
+  static const String URL = 'https://allpadma.com';
+  static const String APP_NAME = 'Grameen Bangla';
+  static const String ONESIGNAL_APP_ID = 'f098e404-038c-4a3a-adb1-6fa9ef1cdefa';
 
   static const bool IS_ONSIGNAL_ENABLED = true;
   static const bool IS_ADMOB_ENABLED = false;
@@ -48,6 +48,7 @@ class AppConfig {
     'loopring',
     'venly',
     'xdewallet',
-    'unstoppable'
+    'unstoppable',
+    'tg'
   ];
 }
