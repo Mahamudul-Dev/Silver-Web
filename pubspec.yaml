@@ -22,6 +22,7 @@ dependencies:
   onesignal_flutter: ^5.1.0
   flutter_native_splash: ^2.4.0
   flutter_inappwebview: ^6.1.5
+  permission_handler: ^11.4.0
 
 dev_dependencies: 
   flutter_lints: any
@@ -38,20 +39,20 @@ flutter:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/logo_solid.jpg"
+  image_path: "assets/logo_solid.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   
 package_rename_config:
   android:
-    app_name: "Grameen Bangla" # (String) The display name of the android app
-    package_name: "com.allpadma.grameenbangla" # (String) The package name of the android app
-    override_old_package: "dev.codejet.securelink" # (Optional) (String) Use this to delete the old folder structure of MainActivity or to use the existing code with the new package name
+    app_name: "ORIZON Commerce" # (String) The display name of the android app
+    package_name: "com.orizon.commerce" # (String) The package name of the android app
+    override_old_package: "com.orizon.app" # (Optional) (String) Use this to delete the old folder structure of MainActivity or to use the existing code with the new package name
     lang: # (Optional) (String) The android development language {kotlin(default) or java}
 
   ios:
-    app_name: # (String) The display name of the ios app
-    bundle_name: # (String) The bundle name of the ios app
-    package_name: # (String) The product bundle identifier of the ios app
+    app_name: "ORIZON Commerce" # (String) The display name of the ios app
+    bundle_name: "OrizonCommerce"  # (String) The bundle name of the ios app
+    package_name: "com.orizon.commrece" # (String) The product bundle identifier of the ios app
 
   linux:
     app_name: # (String) The window title of the linux app

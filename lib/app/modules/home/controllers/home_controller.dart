@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:ape_store/app/data/config.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeController extends GetxController {
   Rx<WebUri?> currentLoadedUri = Rx<WebUri?>(WebUri(AppConfig.URL));
@@ -29,6 +30,29 @@ class HomeController extends GetxController {
         url: WebUri(AppConfig.URL), // Replace with your desired URL
       ),
     );
+  }
+
+  Future<void> reload() async {
+    isLoading.value = true;
+    if(Platform.isAndroid){
+    await webViewController?.reload().then((value) => isLoading.value = false);
+    } else if(Platform.isIOS){
+      await webViewController?.loadUrl(urlRequest: URLRequest(url: currentLoadedUri.value)).then((value) => isLoading.value = false);
+    }
+  }
+
+
+  Future<void> requestLocationPermission() async {
+  var status = await Permission.location.request();
+  if (status.isDenied || status.isPermanentlyDenied) {
+    openAppSettings(); // Open settings if the user denied permanently
+  }
+}
+
+@override
+  void onReady() {
+    requestLocationPermission();
+    super.onReady();
   }
 
   @override

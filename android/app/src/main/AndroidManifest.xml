@@ -1,10 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.allpadma.grameenbangla">
+    package="com.orizon.commerce">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Always include this permission -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Include only if your app benefits from precise location access. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 
     <application
-        android:label="Grameen Bangla"
+        android:label="ORIZON Commerce"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

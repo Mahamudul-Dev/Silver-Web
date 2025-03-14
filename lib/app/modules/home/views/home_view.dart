@@ -30,7 +30,6 @@ class HomeView extends GetView<HomeController> {
         return true;
       },
       child: Scaffold(
-        backgroundColor: AppColor.ACCENT_COLOR,
         body: Obx(() {
           if (HomeController.isConnected.value) {
             return SafeArea(
@@ -38,53 +37,64 @@ class HomeView extends GetView<HomeController> {
                 children: [
                   InAppWebView(
                     pullToRefreshController: PullToRefreshController(
-                        onRefresh: controller.onRefresh,
-                        options: PullToRefreshOptions(
-                          color: AppColor.ACCENT_COLOR,
-                        ),),
-                        shouldOverrideUrlLoading: (controller, navigationAction) async {
-                          final uri = navigationAction.request.url;
-                          if(uri !=null && AppConfig.BLOCKED_SCHEME.contains(uri.scheme)){
-                            try {
-                              final canLaunch = await canLaunchUrl(uri);
-                            print(canLaunch);
-                            // if(canLaunch){
-                              await launchUrl(uri, mode: LaunchMode.externalApplication);
-                            // }
-                            } catch (e) {
-                              print(e);
-                            }
-                            return NavigationActionPolicy.CANCEL;
-                          }
-                          return NavigationActionPolicy.ALLOW;
-                        },
-                    initialUrlRequest: URLRequest(
-                      url: WebUri(AppConfig.URL), // Replace with your desired URL
+                      onRefresh: controller.onRefresh,
+                      settings: PullToRefreshSettings(
+                        color: AppColor.ACCENT_COLOR,
+                      ),
                     ),
-                    initialOptions: InAppWebViewGroupOptions(
-                        crossPlatform: InAppWebViewOptions(
-                            // Configure WebView options here
-                            supportZoom: false,
-                            allowFileAccessFromFileURLs: true,
-                            allowUniversalAccessFromFileURLs: true,
-                            cacheEnabled: true,
-                            javaScriptEnabled: true,
-                            useShouldOverrideUrlLoading: true,
-                            mediaPlaybackRequiresUserGesture: false,
-                            useOnDownloadStart: true,
-                            
-                            userAgent: "Android/5.0 Grameen Bangla", // "Mozilla/5.0 (Linux; Android 9; LG-H870 Build/PKQ1.190522.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36",
-                            verticalScrollBarEnabled: false,
-                            horizontalScrollBarEnabled: false,
-                            transparentBackground: true),
-                        android: AndroidInAppWebViewOptions(
-                          useHybridComposition: true,
-                          thirdPartyCookiesEnabled: true,
-                          allowFileAccess: true,
-                        ),
-                        ios: IOSInAppWebViewOptions(
-                          allowsInlineMediaPlayback: true,
-                        )),
+                    shouldOverrideUrlLoading:
+                        (controller, navigationAction) async {
+                      final uri = navigationAction.request.url;
+                      if (uri != null &&
+                          AppConfig.BLOCKED_SCHEME.contains(uri.scheme)) {
+                        try {
+                          final canLaunch = await canLaunchUrl(uri);
+                          print(canLaunch);
+                          // if(canLaunch){
+                          await launchUrl(uri,
+                              mode: LaunchMode.externalApplication);
+                          // }
+                        } catch (e) {
+                          print(e);
+                        }
+                        return NavigationActionPolicy.CANCEL;
+                      }
+                      return NavigationActionPolicy.ALLOW;
+                    },
+                    initialUrlRequest: URLRequest(
+                      url: WebUri(
+                          AppConfig.URL), // Replace with your desired URL
+                    ),
+                    onGeolocationPermissionsShowPrompt:
+                        (controller, origin) async {
+                      return GeolocationPermissionShowPromptResponse(
+                        allow: true, // Grant location permission
+                        retain: true,
+                        origin: origin, // Keep it granted across reloads
+                      );
+                    },
+                    initialSettings: InAppWebViewSettings(
+                      supportZoom: false,
+                      allowFileAccessFromFileURLs: true,
+                      allowUniversalAccessFromFileURLs: true,
+                      cacheEnabled: true,
+                      geolocationEnabled: true,
+                      allowContentAccess: true,
+                      allowsLinkPreview: true,
+                      javaScriptEnabled: true,
+                      useShouldOverrideUrlLoading: true,
+                      mediaPlaybackRequiresUserGesture: false,
+                      useOnDownloadStart: true,
+                      userAgent:
+                          "Mozilla/5.0 (Linux; Android 9; LG-H870 Build/PKQ1.190522.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36",
+                      verticalScrollBarEnabled: false,
+                      horizontalScrollBarEnabled: false,
+                      transparentBackground: true,
+                      useHybridComposition: true,
+                      thirdPartyCookiesEnabled: true,
+                      allowFileAccess: true,
+                      allowsInlineMediaPlayback: true,
+                    ),
                     onLoadStart: (webController, url) {
                       if (!controller.isLoading.value) {
                         controller.isLoading.value = true;
@@ -95,9 +105,64 @@ class HomeView extends GetView<HomeController> {
                         "Path": url?.path
                       });
                     },
-                    onLoadError: (controller, url, code, message) {},
-                    onLoadHttpError:
-                        (controller, url, statusCode, description) {},
+                    onReceivedError: (webController, request, error) {
+                      print(error);
+
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            content: Text(
+                              error.toString(),
+                              style: const TextStyle(color: Colors.black),
+                            ),
+                            actions: [
+                              ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor: WidgetStatePropertyAll(
+                                          AppColor.ACCENT_COLOR)),
+                                  onPressed: () {
+                                    controller.reload();
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("Retry"))
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    onReceivedHttpError: (webController, request, error) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            content: Text(
+                              error.toString(),
+                              style: const TextStyle(color: Colors.black),
+                            ),
+                            actions: [
+                              ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor: WidgetStatePropertyAll(
+                                          AppColor.ACCENT_COLOR)),
+                                  onPressed: () {
+                                    controller.reload();
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("Retry"))
+                            ],
+                          );
+                        },
+                      );
+                    },
                     onWebViewCreated: (newWebviewController) {
                       controller.webViewController = newWebviewController;
                       if (!controller.isLoading.value) {
@@ -110,7 +175,7 @@ class HomeView extends GetView<HomeController> {
                     },
                     onLoadStop: (webviewController, url) async {
                       controller.currentLoadedUri.value = url;
-                      
+
                       controller.isLoading.value = false;
                     },
                   ),
