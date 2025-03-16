@@ -49,6 +49,7 @@ class AppConfig {
     'venly',
     'xdewallet',
     'unstoppable',
-    'tg'
+    'tg',
+    'wa'
   ];
 }

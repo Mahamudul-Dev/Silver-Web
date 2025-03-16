@@ -117,7 +117,7 @@ class HomeView extends GetView<HomeController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             content: Text(
-                              error.toString(),
+                              'Error: $error, URL Schema: ${request.url.scheme}, URL Host: ${request.url.host}, URL Path: ${request.url.path}',
                               style: const TextStyle(color: Colors.black),
                             ),
                             actions: [
@@ -145,7 +145,7 @@ class HomeView extends GetView<HomeController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             content: Text(
-                              error.toString(),
+                              'Error: $error, URL Schema: ${request.url.scheme}, URL Host: ${request.url.host}, URL Path: ${request.url.path}',
                               style: const TextStyle(color: Colors.black),
                             ),
                             actions: [
